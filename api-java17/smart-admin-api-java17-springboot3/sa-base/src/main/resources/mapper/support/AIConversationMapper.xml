@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.lab1024.sa.base.module.support.ai.dao.AIConversationDao">
+
+    <!-- 根据会话ID查询 -->
+    <select id="selectByConversationId" resultType="net.lab1024.sa.base.module.support.ai.domain.entity.AIConversationEntity">
+        SELECT *
+        FROM t_ai_conversation
+        WHERE conversation_id = #{conversationId}
+          AND deleted_flag = false
+        LIMIT 1
+    </select>
+
+    <!-- 分页查询用户的会话列表 -->
+    <select id="queryPageByUserId" resultType="net.lab1024.sa.base.module.support.ai.domain.entity.AIConversationEntity">
+        SELECT *
+        FROM t_ai_conversation
+        WHERE user_id = #{userId}
+          AND deleted_flag = false
+        ORDER BY last_message_time DESC
+    </select>
+
+    <!-- 根据会话ID删除 -->
+    <update id="deleteByConversationId">
+        UPDATE t_ai_conversation
+        SET deleted_flag = true,
+            update_time  = NOW()
+        WHERE conversation_id = #{conversationId}
+    </update>
+
+    <!-- 更新会话统计信息 -->
+    <update id="updateConversationStats">
+        UPDATE t_ai_conversation
+        SET message_count = #{messageCount},
+            total_tokens  = #{totalTokens},
+            total_cost    = #{totalCost},
+            update_time   = NOW()
+        WHERE conversation_id = #{conversationId}
+    </update>
+
+    <!-- 更新会话标题 -->
+    <update id="updateTitle">
+        UPDATE t_ai_conversation
+        SET title       = #{title},
+            update_time = NOW()
+        WHERE conversation_id = #{conversationId}
+    </update>
+
+</mapper>

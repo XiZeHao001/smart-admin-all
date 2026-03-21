@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.lab1024.sa.admin.module.system.fieldpermission.dao.FieldPermissionDao">
+
+    <!-- 根据角色ID列表查询字段权限配置 -->
+    <select id="selectByRoleIds" resultType="net.lab1024.sa.admin.module.system.fieldpermission.domain.entity.FieldPermissionEntity">
+        SELECT *
+        FROM t_field_permission
+        WHERE role_id IN
+        <foreach collection="roleIdList" item="roleId" open="(" separator="," close=")">
+            #{roleId}
+        </foreach>
+        ORDER BY role_id, module_code, field_name
+    </select>
+
+    <!-- 根据角色ID、模块代码查询字段权限配置 -->
+    <select id="selectByRoleAndModule" resultType="net.lab1024.sa.admin.module.system.fieldpermission.domain.entity.FieldPermissionEntity">
+        SELECT *
+        FROM t_field_permission
+        WHERE role_id = #{roleId}
+          AND module_code = #{moduleCode}
+        ORDER BY field_name
+    </select>
+
+    <!-- 删除角色的字段权限配置 -->
+    <delete id="deleteByRoleId">
+        DELETE FROM t_field_permission
+        WHERE role_id = #{roleId}
+    </delete>
+
+    <!-- 批量插入或更新字段权限配置 -->
+    <insert id="batchInsertOrUpdate">
+        INSERT INTO t_field_permission
+        (role_id, module_code, field_name, permission_type, mask_type, remark, create_user_id, create_user_name, create_time, update_time)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.roleId}, #{item.moduleCode}, #{item.fieldName}, #{item.permissionType}, #{item.maskType},
+             #{item.remark}, #{item.createUserId}, #{item.createUserName}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+        </foreach>
+        ON CONFLICT (role_id, module_code, field_name)
+        DO UPDATE SET
+            permission_type = EXCLUDED.permission_type,
+            mask_type = EXCLUDED.mask_type,
+            remark = EXCLUDED.remark,
+            update_time = CURRENT_TIMESTAMP
+    </insert>
+
+</mapper>
+

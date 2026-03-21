@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.lab1024.sa.base.module.support.codegenerator.dao.CodeGeneratorDao">
+
+    <select id="countByTableName" resultType="Long">
+        select count(*)
+        from information_schema.tables
+        where table_schema = 'public'
+          and table_name = #{tableName}
+    </select>
+
+    <select id="selectTableColumn" resultType="net.lab1024.sa.base.module.support.codegenerator.domain.vo.TableColumnVO">
+        SELECT
+            c.column_name,
+            c.data_type,
+            c.is_nullable,
+            c.column_default,
+            c.ordinal_position,
+            CASE
+                WHEN pk.column_name IS NOT NULL THEN 'PRI'
+                ELSE ''
+                END AS column_key,
+            CASE
+                WHEN c.column_default LIKE 'nextval%' THEN 'auto_increment'
+                ELSE ''
+                END AS extra,
+            COALESCE(
+                    col_description((c.table_schema||'.'||c.table_name)::regclass::oid, c.ordinal_position),
+                    ''
+            ) AS column_comment
+        FROM
+            information_schema.columns c
+                LEFT JOIN (
+                SELECT
+                    ku.column_name,
+                    ku.table_name,
+                    ku.table_schema
+                FROM
+                    information_schema.table_constraints tc
+                        JOIN information_schema.key_column_usage ku
+                             ON tc.constraint_name = ku.constraint_name
+                                 AND tc.table_schema = ku.table_schema
+                                 AND tc.table_name = ku.table_name
+                WHERE
+                    tc.constraint_type = 'PRIMARY KEY'
+            ) pk ON c.column_name = pk.column_name
+                AND c.table_name = pk.table_name
+                AND c.table_schema = pk.table_schema
+        WHERE
+            c.table_schema = 'public'
+          AND c.table_name = #{tableName}
+        ORDER BY c.ordinal_position
+    </select>
+
+    <select id="queryTableList" resultType="net.lab1024.sa.base.module.support.codegenerator.domain.vo.TableVO">
+    SELECT
+        t.table_name,
+        obj_description(c.oid) as table_comment,
+        tc.update_time as configTime
+    From information_schema.tables t
+        join pg_class c on c.relname = t.table_name
+        left join t_code_generator_config tc on t.table_name = tc.table_name
+    WHERE t.table_schema = 'public'
+    <if test="queryForm.tableNameKeywords != null and queryForm.tableNameKeywords != ''">
+        AND t.table_name ILIKE CONCAT('%', #{queryForm.tableNameKeywords}, '%')
+    </if>
+        order by tc.create_time  desc
+    </select>
+</mapper>
