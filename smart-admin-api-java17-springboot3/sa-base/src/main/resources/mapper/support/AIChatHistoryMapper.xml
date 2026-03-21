@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.lab1024.sa.base.module.support.ai.dao.AIChatHistoryDao">
+
+    <!-- 根据会话ID查询历史记录 (限制条数) -->
+    <select id="selectByConversationId" resultType="net.lab1024.sa.base.module.support.ai.domain.entity.AIChatHistoryEntity">
+        SELECT *
+        FROM t_ai_chat_history
+        WHERE conversation_id = #{conversationId}
+          AND deleted_flag = false
+        ORDER BY create_time ASC
+        <if test="limit != null">
+            LIMIT #{limit}
+        </if>
+    </select>
+
+    <!-- 根据会话ID查询所有历史记录 -->
+    <select id="selectAllByConversationId" resultType="net.lab1024.sa.base.module.support.ai.domain.entity.AIChatHistoryEntity">
+        SELECT *
+        FROM t_ai_chat_history
+        WHERE conversation_id = #{conversationId}
+          AND deleted_flag = false
+        ORDER BY create_time ASC
+    </select>
+
+    <!-- 根据会话ID删除历史记录 -->
+    <update id="deleteByConversationId">
+        UPDATE t_ai_chat_history
+        SET deleted_flag = true
+        WHERE conversation_id = #{conversationId}
+    </update>
+
+    <!-- 查询会话的消息数量 -->
+    <select id="countByConversationId" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM t_ai_chat_history
+        WHERE conversation_id = #{conversationId}
+          AND deleted_flag = false
+    </select>
+
+    <!-- 查询用户的历史记录（限制条数） -->
+    <select id="selectByUserId" resultType="net.lab1024.sa.base.module.support.ai.domain.entity.AIChatHistoryEntity">
+        SELECT *
+        FROM t_ai_chat_history
+        WHERE user_id = #{userId}
+          AND deleted_flag = false
+        ORDER BY create_time DESC
+        <if test="limit != null">
+            LIMIT #{limit}
+        </if>
+    </select>
+
+</mapper>

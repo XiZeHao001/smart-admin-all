@@ -1,0 +1,162 @@
+name: smart-admin-app
+
+services:
+  # -----------------------------------------------------------------------------
+  # 1. Java 应用服务
+  # -----------------------------------------------------------------------------
+  app:
+    image: eclipse-temurin:17-jre-alpine
+    container_name: smart-admin-app
+    restart: always
+    ports:
+      - "10010:10010"
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+      - TZ=Asia/Shanghai
+      # 数据库连接：使用 middleware.yml 中定义的服务名 'postgres'
+      - SPRING_DATASOURCE_DYNAMIC_DATASOURCE_MASTER_URL=jdbc:postgresql://smart-admin-postgres:5432/smart_admin_v3?currentSchema=public
+      - SPRING_DATASOURCE_DYNAMIC_DATASOURCE_MASTER_USERNAME=postgres
+      - SPRING_DATASOURCE_DYNAMIC_DATASOURCE_MASTER_PASSWORD=123456
+      - SPRING_DATASOURCE_DYNAMIC_DATASOURCE_MASTER_DRIVER_CLASS_NAME=org.postgresql.Driver
+      # Redis 连接：使用 middleware.yml 中定义的服务名 'smart-admin-redis'
+      - SPRING_DATA_REDIS_HOST=smart-admin-redis
+      - SPRING_DATA_REDIS_PORT=6379
+      - PROJECT_LOG_DIRECTORY=/home/app/logs
+    volumes:
+      - /home/app/app.jar:/app/app.jar:ro
+      - /home/app/logs:/home/app/logs
+      - /home/app/upload:/home/app/upload
+    # 注意：跨文件部署时，depends_on 无法检测另一个文件的服务健康状态
+    # 所以应用必须具备“连接失败自动重试”的能力（Spring Boot 默认支持）
+    networks:
+      - smart-admin-network
+    entrypoint: ["java", "-Xms512m", "-Xmx1024m", "-XX:+HeapDumpOnOutOfMemoryError", "-XX:HeapDumpPath=/home/app/logs/", "-jar", "/app/app.jar"]
+
+  # -----------------------------------------------------------------------------
+  # 2. Prometheus (监控采集)
+  # -----------------------------------------------------------------------------
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: smart-admin-prometheus
+    restart: always
+    volumes:
+      - /home/app/deploy/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - /home/app/data/prometheus:/prometheus
+    ports:
+      - "9090:9090"
+    networks:
+      - smart-admin-network
+
+  # -----------------------------------------------------------------------------
+  # 3. Grafana (监控展示)
+  # -----------------------------------------------------------------------------
+  grafana:
+    image: grafana/grafana:latest
+    container_name: smart-admin-grafana
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - /home/app/data/grafana:/var/lib/grafana
+    networks:
+      - smart-admin-network
+    depends_on:
+      - prometheus
+
+  # -----------------------------------------------------------------------------
+  # 4. Nginx 服务
+  # -----------------------------------------------------------------------------
+  nginx:
+    image: nginx:alpine
+    container_name: smart-admin-nginx
+    restart: always
+    ports:
+      - "10086:10086"
+      - "443:443"
+    volumes:
+      - /home/app/deploy/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - /home/app/deploy/nginx/conf.d:/etc/nginx/conf.d:ro
+      - /home/app/deploy/nginx/logs:/var/log/nginx
+      - /home/app/deploy/nginx/ssl:/etc/nginx/ssl:ro
+      - /home/app/frontend/dist:/usr/share/nginx/html:ro
+    depends_on:
+      - app
+    networks:
+      - smart-admin-network
+
+  # -----------------------------------------------------------------------------
+  # 5. Node Exporter (监控宿主机 CPU/内存/磁盘)
+  # -----------------------------------------------------------------------------
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: smart-admin-node-exporter
+    restart: always
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - '--path.rootfs=/host/root'
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/host/root:ro
+    networks:
+      - smart-admin-network
+
+  # -----------------------------------------------------------------------------
+  # 6. Redis Exporter (监控 Redis 指标)
+  # -----------------------------------------------------------------------------
+  redis-exporter:
+    image: oliver006/redis_exporter:latest
+    container_name: smart-admin-redis-exporter
+    restart: always
+    environment:
+      # 这里必须指向 middleware.yml 里的 redis 容器名
+      - REDIS_ADDR=redis://smart-admin-redis:6379
+    networks:
+      - smart-admin-network
+
+  # -----------------------------------------------------------------------------
+  # 7. Loki (日志存储核心)
+  # -----------------------------------------------------------------------------
+  loki:
+    image: grafana/loki:2.9.2
+    container_name: smart-admin-loki
+    restart: always
+    command: -config.file=/etc/loki/local-config.yaml
+    ports:
+      - "3100:3100"
+    volumes:
+      # 挂载配置文件
+      - /home/app/deploy/loki/loki-config.yaml:/etc/loki/local-config.yaml
+      # 挂载数据目录 (持久化！重启数据不丢)
+      - /home/app/data/loki:/loki
+    networks:
+      - smart-admin-network
+
+  # -----------------------------------------------------------------------------
+  # 8. Promtail (日志采集器)
+  # -----------------------------------------------------------------------------
+  promtail:
+    image: grafana/promtail:2.9.2
+    container_name: smart-admin-promtail
+    restart: always
+    command: -config.file=/etc/promtail/config.yml
+    volumes:
+      # 挂载配置文件
+      - /home/app/deploy/loki/promtail-config.yaml:/etc/promtail/config.yml
+      # 【关键】把宿主机的日志目录挂载给 Promtail 看
+      # 左边是宿主机实际日志路径，右边是 Promtail 配置文件里写的路径
+      - /home/app/logs:/var/log/smart-admin-logs:ro
+    networks:
+      - smart-admin-network
+    depends_on:
+      - loki
+# -----------------------------------------------------------------------------
+# 网络定义：加入已存在的网络
+# -----------------------------------------------------------------------------
+networks:
+  smart-admin-network:
+    external: true

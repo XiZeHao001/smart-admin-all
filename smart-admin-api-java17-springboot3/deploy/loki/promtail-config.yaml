@@ -1,0 +1,21 @@
+server:
+  http_listen_port: 9080
+  grpc_listen_port: 0
+
+positions:
+  filename: /tmp/positions.yaml # 记录读取日志的位置，重启不丢失
+
+clients:
+  # 把日志推送到 Loki 容器
+  - url: http://smart-admin-loki:3100/loki/api/v1/push
+
+scrape_configs:
+  - job_name: system
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: smart-admin-logs  # 这是你在 Grafana 里查日志的标签
+          # 告诉 Promtail 去容器内的哪个路径抓日志
+          # 这里对应下面 docker-compose 挂载进去的路径
+          __path__: /var/log/smart-admin-logs/**/*.log

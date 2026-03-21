@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.lab1024.sa.admin.module.system.fieldpermission.dao.FieldMetadataDao">
+
+    <!-- 根据模块代码查询字段元数据 -->
+    <select id="selectByModule" resultType="net.lab1024.sa.admin.module.system.fieldpermission.domain.entity.FieldMetadataEntity">
+        SELECT *
+        FROM t_field_metadata
+        WHERE module_code = #{moduleCode}
+        <if test="enabledFlag != null">
+            AND enabled_flag = #{enabledFlag}
+        </if>
+        ORDER BY sort_order, field_name
+    </select>
+
+    <!-- 查询所有模块的字段元数据 -->
+    <select id="selectAll" resultType="net.lab1024.sa.admin.module.system.fieldpermission.domain.entity.FieldMetadataEntity">
+        SELECT *
+        FROM t_field_metadata
+        <if test="enabledFlag != null">
+            WHERE enabled_flag = #{enabledFlag}
+        </if>
+        ORDER BY module_code, sort_order, field_name
+    </select>
+
+</mapper>
+
