@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>net.lab1024</groupId>
+        <artifactId>smart-starters-parent</artifactId>
+        <version>3.0.0</version>
+    </parent>
+
+    <artifactId>starter-sms</artifactId>
+    <name>starter-sms</name>
+    <description>短信服务 Starter — 支持阿里云 / 腾讯云，统一抽象，按需切换</description>
+
+    <dependencies>
+        <!-- 阿里云短信 SDK（optional，不引入不生效） -->
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>dysmsapi20170525</artifactId>
+            <version>${aliyun-sms.version}</version>
+            <optional>true</optional>
+        </dependency>
+        <!-- 腾讯云短信 SDK（optional） -->
+        <!--<dependency>
+            <groupId>com.tencentcloudapi</groupId>
+            <artifactId>tencentcloud-sdk-java-sms</artifactId>
+            <version>${tencentcloud-sdk.version}</version>
+            <optional>true</optional>
+        </dependency>-->
+    </dependencies>
+
+</project>

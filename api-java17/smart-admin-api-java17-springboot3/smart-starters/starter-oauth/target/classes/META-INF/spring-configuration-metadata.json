@@ -1,0 +1,27 @@
+{
+  "groups": [
+    {
+      "name": "smart.oauth",
+      "type": "net.lab1024.sa.starter.oauth.OauthProperties",
+      "sourceType": "net.lab1024.sa.starter.oauth.OauthProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "smart.oauth.enabled",
+      "type": "java.lang.Boolean",
+      "sourceType": "net.lab1024.sa.starter.oauth.OauthProperties",
+      "defaultValue": false
+    },
+    {
+      "name": "smart.oauth.providers",
+      "type": "java.util.Map<java.lang.String,net.lab1024.sa.starter.oauth.OauthProperties$ProviderConfig>",
+      "description": "key = 平台标识（wechat \/ dingtalk \/ wecom），value = 该平台配置",
+      "sourceType": "net.lab1024.sa.starter.oauth.OauthProperties"
+    }
+  ],
+  "hints": [],
+  "ignored": {
+    "properties": []
+  }
+}

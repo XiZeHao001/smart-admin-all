@@ -1,0 +1,89 @@
+{
+  "groups": [
+    {
+      "name": "smart.pay",
+      "type": "net.lab1024.sa.starter.pay.PayProperties",
+      "sourceType": "net.lab1024.sa.starter.pay.PayProperties"
+    },
+    {
+      "name": "smart.pay.alipay",
+      "type": "net.lab1024.sa.starter.pay.PayProperties$Alipay",
+      "sourceType": "net.lab1024.sa.starter.pay.PayProperties"
+    },
+    {
+      "name": "smart.pay.wechat",
+      "type": "net.lab1024.sa.starter.pay.PayProperties$Wechat",
+      "sourceType": "net.lab1024.sa.starter.pay.PayProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "smart.pay.alipay.alipay-public-key",
+      "type": "java.lang.String",
+      "sourceType": "net.lab1024.sa.starter.pay.PayProperties$Alipay"
+    },
+    {
+      "name": "smart.pay.alipay.app-id",
+      "type": "java.lang.String",
+      "sourceType": "net.lab1024.sa.starter.pay.PayProperties$Alipay"
+    },
+    {
+      "name": "smart.pay.alipay.notify-url",
+      "type": "java.lang.String",
+      "sourceType": "net.lab1024.sa.starter.pay.PayProperties$Alipay"
+    },
+    {
+      "name": "smart.pay.alipay.private-key",
+      "type": "java.lang.String",
+      "sourceType": "net.lab1024.sa.starter.pay.PayProperties$Alipay"
+    },
+    {
+      "name": "smart.pay.alipay.sandbox",
+      "type": "java.lang.Boolean",
+      "description": "沙箱模式",
+      "sourceType": "net.lab1024.sa.starter.pay.PayProperties$Alipay",
+      "defaultValue": false
+    },
+    {
+      "name": "smart.pay.enabled",
+      "type": "java.lang.Boolean",
+      "sourceType": "net.lab1024.sa.starter.pay.PayProperties",
+      "defaultValue": false
+    },
+    {
+      "name": "smart.pay.wechat.api-v3-key",
+      "type": "java.lang.String",
+      "sourceType": "net.lab1024.sa.starter.pay.PayProperties$Wechat"
+    },
+    {
+      "name": "smart.pay.wechat.app-id",
+      "type": "java.lang.String",
+      "sourceType": "net.lab1024.sa.starter.pay.PayProperties$Wechat"
+    },
+    {
+      "name": "smart.pay.wechat.mch-id",
+      "type": "java.lang.String",
+      "sourceType": "net.lab1024.sa.starter.pay.PayProperties$Wechat"
+    },
+    {
+      "name": "smart.pay.wechat.mch-serial-no",
+      "type": "java.lang.String",
+      "sourceType": "net.lab1024.sa.starter.pay.PayProperties$Wechat"
+    },
+    {
+      "name": "smart.pay.wechat.notify-url",
+      "type": "java.lang.String",
+      "sourceType": "net.lab1024.sa.starter.pay.PayProperties$Wechat"
+    },
+    {
+      "name": "smart.pay.wechat.private-key-path",
+      "type": "java.lang.String",
+      "description": "商户私钥文件路径，支持 classpath: 前缀",
+      "sourceType": "net.lab1024.sa.starter.pay.PayProperties$Wechat"
+    }
+  ],
+  "hints": [],
+  "ignored": {
+    "properties": []
+  }
+}

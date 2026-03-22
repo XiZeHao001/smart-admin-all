@@ -1,0 +1,44 @@
+{
+  "groups": [
+    {
+      "name": "smart.search",
+      "type": "net.lab1024.sa.starter.search.SearchProperties",
+      "sourceType": "net.lab1024.sa.starter.search.SearchProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "smart.search.enabled",
+      "type": "java.lang.Boolean",
+      "sourceType": "net.lab1024.sa.starter.search.SearchProperties",
+      "defaultValue": false
+    },
+    {
+      "name": "smart.search.index-prefix",
+      "type": "java.lang.String",
+      "description": "索引名前缀，建议按环境区分，如 dev_ \/ prod_",
+      "sourceType": "net.lab1024.sa.starter.search.SearchProperties",
+      "defaultValue": "smart_"
+    },
+    {
+      "name": "smart.search.password",
+      "type": "java.lang.String",
+      "sourceType": "net.lab1024.sa.starter.search.SearchProperties"
+    },
+    {
+      "name": "smart.search.uris",
+      "type": "java.util.List<java.lang.String>",
+      "sourceType": "net.lab1024.sa.starter.search.SearchProperties",
+      "defaultValue": "http:\/\/localhost:9200"
+    },
+    {
+      "name": "smart.search.username",
+      "type": "java.lang.String",
+      "sourceType": "net.lab1024.sa.starter.search.SearchProperties"
+    }
+  ],
+  "hints": [],
+  "ignored": {
+    "properties": []
+  }
+}
