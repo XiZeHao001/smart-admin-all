@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>net.lab1024</groupId>
+        <artifactId>smart-starters-parent</artifactId>
+        <version>1.0.0</version>
+    </parent>
+
+    <artifactId>starter-pay</artifactId>
+    <name>starter-pay</name>
+    <description>支付 Starter — 支持微信支付 V3 / 支付宝，统一下单/回调抽象</description>
+
+    <dependencies>
+        <!-- 微信支付 V3（optional） -->
+        <dependency>
+            <groupId>com.github.wechatpay-apiv3</groupId>
+            <artifactId>wechatpay-apache-httpclient</artifactId>
+            <version>${wechatpay-apache-httpclient.version}</version>
+            <optional>true</optional>
+        </dependency>
+        <!-- 支付宝 SDK（optional） -->
+        <dependency>
+            <groupId>com.alipay.sdk</groupId>
+            <artifactId>alipay-sdk-java</artifactId>
+            <version>${alipay-sdk.version}</version>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <optional>true</optional>
+        </dependency>
+    </dependencies>
+
+</project>

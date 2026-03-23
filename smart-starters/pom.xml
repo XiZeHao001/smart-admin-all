@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>net.lab1024</groupId>
+    <artifactId>smart-starters-parent</artifactId>
+    <version>1.0.0</version>
+    <packaging>pom</packaging>
+    <name>smart-starters-parent</name>
+    <description>SmartAdmin 插件化能力包 — 父 POM</description>
+
+    <modules>
+        <module>starter-sms</module>
+        <module>starter-mq</module>
+        <module>starter-saas-tenant</module>
+        <module>starter-pay</module>
+        <module>starter-oauth</module>
+        <module>starter-workflow</module>
+        <module>starter-search</module>
+    </modules>
+
+    <properties>
+        <java.version>17</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- 与 sa-parent 保持一致 -->
+        <springboot.version>3.5.4</springboot.version>
+        <sa-token.version>1.44.0</sa-token.version>
+        <mybatis-plus.version>3.5.12</mybatis-plus.version>
+        <redisson.version>3.50.0</redisson.version>
+        <fastjson.version>2.0.57</fastjson.version>
+        <hutool.version>5.8.39</hutool.version>
+        <!-- 各 starter 专属依赖版本 -->
+        <flowable.version>7.1.0</flowable.version>
+        <elasticsearch-client.version>8.17.0</elasticsearch-client.version>
+        <aliyun-sms.version>2.0.24</aliyun-sms.version>
+        <tencentcloud-sdk.version>3.1.1131</tencentcloud-sdk.version>
+        <wechatpay-apache-httpclient.version>0.4.9</wechatpay-apache-httpclient.version>
+        <alipay-sdk.version>4.40.0.ALL</alipay-sdk.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${springboot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-bom</artifactId>
+                <version>${mybatis-plus.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- 内部模块 -->
+            <dependency>
+                <groupId>net.lab1024</groupId>
+                <artifactId>starter-sms</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.lab1024</groupId>
+                <artifactId>starter-mq</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.lab1024</groupId>
+                <artifactId>starter-saas-tenant</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.lab1024</groupId>
+                <artifactId>starter-pay</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.lab1024</groupId>
+                <artifactId>starter-oauth</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.lab1024</groupId>
+                <artifactId>starter-workflow</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.lab1024</groupId>
+                <artifactId>starter-search</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <!-- 所有子模块共用的依赖 -->
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
