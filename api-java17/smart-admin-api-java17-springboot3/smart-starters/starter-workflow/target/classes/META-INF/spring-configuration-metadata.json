@@ -1,0 +1,35 @@
+{
+  "groups": [
+    {
+      "name": "smart.workflow",
+      "type": "net.lab1024.sa.starter.workflow.WorkflowProperties",
+      "sourceType": "net.lab1024.sa.starter.workflow.WorkflowProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "smart.workflow.auto-deploy-dir",
+      "type": "java.lang.String",
+      "description": "启动时自动部署的流程定义目录",
+      "sourceType": "net.lab1024.sa.starter.workflow.WorkflowProperties",
+      "defaultValue": "classpath:processes\/"
+    },
+    {
+      "name": "smart.workflow.enabled",
+      "type": "java.lang.Boolean",
+      "sourceType": "net.lab1024.sa.starter.workflow.WorkflowProperties",
+      "defaultValue": false
+    },
+    {
+      "name": "smart.workflow.engine",
+      "type": "java.lang.String",
+      "description": "流程引擎：flowable（默认）",
+      "sourceType": "net.lab1024.sa.starter.workflow.WorkflowProperties",
+      "defaultValue": "flowable"
+    }
+  ],
+  "hints": [],
+  "ignored": {
+    "properties": []
+  }
+}

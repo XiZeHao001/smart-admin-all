@@ -1,0 +1,74 @@
+{
+  "groups": [
+    {
+      "name": "smart.sms",
+      "type": "net.lab1024.sa.starter.sms.SmsProperties",
+      "sourceType": "net.lab1024.sa.starter.sms.SmsProperties"
+    },
+    {
+      "name": "smart.sms.aliyun",
+      "type": "net.lab1024.sa.starter.sms.SmsProperties$Aliyun",
+      "sourceType": "net.lab1024.sa.starter.sms.SmsProperties"
+    },
+    {
+      "name": "smart.sms.tencent",
+      "type": "net.lab1024.sa.starter.sms.SmsProperties$Tencent",
+      "sourceType": "net.lab1024.sa.starter.sms.SmsProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "smart.sms.aliyun.access-key-id",
+      "type": "java.lang.String",
+      "sourceType": "net.lab1024.sa.starter.sms.SmsProperties$Aliyun"
+    },
+    {
+      "name": "smart.sms.aliyun.access-key-secret",
+      "type": "java.lang.String",
+      "sourceType": "net.lab1024.sa.starter.sms.SmsProperties$Aliyun"
+    },
+    {
+      "name": "smart.sms.aliyun.sign-name",
+      "type": "java.lang.String",
+      "sourceType": "net.lab1024.sa.starter.sms.SmsProperties$Aliyun"
+    },
+    {
+      "name": "smart.sms.enabled",
+      "type": "java.lang.Boolean",
+      "description": "是否启用",
+      "sourceType": "net.lab1024.sa.starter.sms.SmsProperties",
+      "defaultValue": false
+    },
+    {
+      "name": "smart.sms.provider",
+      "type": "java.lang.String",
+      "description": "短信服务商：aliyun \/ tencent",
+      "sourceType": "net.lab1024.sa.starter.sms.SmsProperties",
+      "defaultValue": "aliyun"
+    },
+    {
+      "name": "smart.sms.tencent.sdk-app-id",
+      "type": "java.lang.String",
+      "sourceType": "net.lab1024.sa.starter.sms.SmsProperties$Tencent"
+    },
+    {
+      "name": "smart.sms.tencent.secret-id",
+      "type": "java.lang.String",
+      "sourceType": "net.lab1024.sa.starter.sms.SmsProperties$Tencent"
+    },
+    {
+      "name": "smart.sms.tencent.secret-key",
+      "type": "java.lang.String",
+      "sourceType": "net.lab1024.sa.starter.sms.SmsProperties$Tencent"
+    },
+    {
+      "name": "smart.sms.tencent.sign-name",
+      "type": "java.lang.String",
+      "sourceType": "net.lab1024.sa.starter.sms.SmsProperties$Tencent"
+    }
+  ],
+  "hints": [],
+  "ignored": {
+    "properties": []
+  }
+}

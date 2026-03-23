@@ -1,0 +1,42 @@
+{
+  "groups": [
+    {
+      "name": "smart.tenant",
+      "type": "net.lab1024.sa.starter.tenant.TenantProperties",
+      "sourceType": "net.lab1024.sa.starter.tenant.TenantProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "smart.tenant.enabled",
+      "type": "java.lang.Boolean",
+      "sourceType": "net.lab1024.sa.starter.tenant.TenantProperties",
+      "defaultValue": false
+    },
+    {
+      "name": "smart.tenant.ignore-tables",
+      "type": "java.lang.String",
+      "description": "不做租户过滤的表名（逗号分隔）",
+      "sourceType": "net.lab1024.sa.starter.tenant.TenantProperties",
+      "defaultValue": ""
+    },
+    {
+      "name": "smart.tenant.isolation-mode",
+      "type": "java.lang.String",
+      "description": "隔离模式 <ul> <li>column — 同库同表，tenant_id 字段区分（默认，成本最低）<\/li> <li>schema — 同库不同 Schema<\/li> <li>datasource — 独立数据源，彻底隔离<\/li> <\/ul>",
+      "sourceType": "net.lab1024.sa.starter.tenant.TenantProperties",
+      "defaultValue": "column"
+    },
+    {
+      "name": "smart.tenant.tenant-id-header",
+      "type": "java.lang.String",
+      "description": "从请求头中读取租户 ID 的 Header 名称",
+      "sourceType": "net.lab1024.sa.starter.tenant.TenantProperties",
+      "defaultValue": "X-Tenant-Id"
+    }
+  ],
+  "hints": [],
+  "ignored": {
+    "properties": []
+  }
+}

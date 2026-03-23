@@ -1,0 +1,28 @@
+{
+  "groups": [
+    {
+      "name": "smart.mq",
+      "type": "net.lab1024.sa.starter.mq.MqProperties",
+      "sourceType": "net.lab1024.sa.starter.mq.MqProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "smart.mq.enabled",
+      "type": "java.lang.Boolean",
+      "sourceType": "net.lab1024.sa.starter.mq.MqProperties",
+      "defaultValue": false
+    },
+    {
+      "name": "smart.mq.provider",
+      "type": "java.lang.String",
+      "description": "消息中间件类型：rabbitmq \/ kafka",
+      "sourceType": "net.lab1024.sa.starter.mq.MqProperties",
+      "defaultValue": "rabbitmq"
+    }
+  ],
+  "hints": [],
+  "ignored": {
+    "properties": []
+  }
+}
